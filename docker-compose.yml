@@ -1,0 +1,23 @@
+version: '3.7'
+
+services:
+    postgresql:
+        image: postgres:latest
+        container_name: 'postgresql_flask'
+        restart: always
+        ports:
+            - "5431:5431"
+        environment:
+            - POSTGRES_DB=${PG_DB}
+            - POSTGRES_PASSWORD=${PG_PASS}
+            - POSTGRES_USER=${PG_USER}
+
+    pgadmin:
+        image: dpage/pgadmin4
+        environment:
+            PGADMIN_DEFAULT_EMAIL: "admin@gmail.com"
+            PGADMIN_DEFAULT_PASSWORD: "admin"
+        ports:
+            - "5050:80"
+        depends_on:
+            - postgresql
