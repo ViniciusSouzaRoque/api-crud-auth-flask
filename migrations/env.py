@@ -1,12 +1,10 @@
 from logging.config import fileConfig
 
-from sqlalchemy import engine_from_config
-from sqlalchemy import pool
-
 from alembic import context
+from sqlalchemy import engine_from_config, pool
 
-from persistency.connection import Base, DATABASE_URL
-from persistency.models.models import *
+from persistency.connection import DATABASE_URL, Base  # noqa
+from persistency.models.models import *  # noqa
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.

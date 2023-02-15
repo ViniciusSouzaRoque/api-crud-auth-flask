@@ -1,23 +1,25 @@
 version: '3.7'
 
 services:
-    postgresql:
-        image: postgres:latest
-        container_name: 'postgresql_flask'
+    mariadb:
+        image: mariadb:latest
+        container_name: 'mariadb-flask'
         restart: always
         ports:
-            - "5431:5431"
+            - "3306:3306"
         environment:
-            - POSTGRES_DB=${PG_DB}
-            - POSTGRES_PASSWORD=${PG_PASS}
-            - POSTGRES_USER=${PG_USER}
+            - MYSQL_ROOT_PASSWORD=${DB_PASS}
+            - MYSQL_DATABASE=${DB_NAME}
+            - MYSQL_USER=${DB_USER}
+            - MYSQL_PASSWORD=${DB_PASS}
 
-    pgadmin:
-        image: dpage/pgadmin4
+    phpmyadmin:
+        image: phpmyadmin/phpmyadmin:latest
         environment:
-            PGADMIN_DEFAULT_EMAIL: "admin@gmail.com"
-            PGADMIN_DEFAULT_PASSWORD: "admin"
+            - PMA_HOST=mariadb
+            - PMA_USER=${DB_USER}
+            - PMA_PASSWORD=${DB_PASS}
         ports:
-            - "5050:80"
+            - "8080:80"
         depends_on:
-            - postgresql
+            - mariadb

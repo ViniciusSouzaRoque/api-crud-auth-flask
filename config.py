@@ -24,4 +24,5 @@ class Config(metaclass=SingletonMeta):
 
     load_dotenv()
     SECRET_KEY = getenv("SECRET_KEY", default="secret")
-    DATABASE_URL = "postgresql://admin:admin@localhost:5431/flask"
+    URL_DATABASE = getenv('DATABASE_URL_CONNECTION',
+                          'mysql+pymysql://admin:admin@localhost/flask')

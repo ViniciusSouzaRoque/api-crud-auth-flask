@@ -1,20 +1,17 @@
-from sqlalchemy.engine import create_engine
+from config import Config
+from sqlalchemy import create_engine
 from sqlalchemy.orm import declarative_base, sessionmaker
 
-from config import Config
-
-DATABASE_URL = Config.DATABASE_URL
-SCHEMA = "backend"
+DATABASE_URL = Config.URL_DATABASE
 Base = declarative_base()
 
-
 engine = create_engine(DATABASE_URL)
-session = sessionmaker(
-    bind=engine, autocommit=False, autoflush=False
-)
 
-def create_db(schema=SCHEMA):
-    Base.metadata.create_all(bind=engine, schema=schema)
+session = sessionmaker(bind=engine, autocommit=False, autoflush=False)
+
+
+def create_db():
+    Base.metadata.create_all(bind=engine)
 
 
 def get_db():
@@ -23,3 +20,7 @@ def get_db():
         yield db
     finally:
         db.close()
+
+
+if __name__ == "__main__":
+    print(DATABASE_URL)

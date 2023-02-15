@@ -7,9 +7,13 @@ name = "pypi"
 flask = "*"
 sqlalchemy = "*"
 alembic = "*"
-dotenv = "*"
-mysqlclient = "==2.0.3"
+mysqlclient = "*"
+python-dotenv = "*"
 psycopg2-binary = "*"
+pymysql = "*"
+black = "*"
+pyproject-flake8 = "*"
+isort = "*"
 
 [dev-packages]
 
