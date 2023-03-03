@@ -7,20 +7,8 @@ Base = declarative_base()
 
 engine = create_engine(DATABASE_URL)
 
-session = sessionmaker(bind=engine, autocommit=False, autoflush=False)
+Session = sessionmaker(bind=engine)
 
 
 def create_db():
     Base.metadata.create_all(bind=engine)
-
-
-def get_db():
-    db = session()
-    try:
-        yield db
-    finally:
-        db.close()
-
-
-if __name__ == "__main__":
-    print(DATABASE_URL)
