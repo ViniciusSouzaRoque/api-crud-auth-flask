@@ -16,6 +16,7 @@ pyproject-flake8 = "*"
 isort = "*"
 pydantic = "*"
 passlib = {extras = ["bcrypt"], version = "*"}
+starlette = "*"
 
 [dev-packages]
 
