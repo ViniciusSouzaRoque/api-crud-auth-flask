@@ -23,14 +23,32 @@ class Projetos(Base):
     id = Column(Integer, primary_key=True, autoincrement=True, nullable=False)
     name = Column(String(length=50), nullable=False)
 
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "name": self.name,
+        }
+
 
 class Tarefas(Base):
     __tablename__ = "tarefas"
     id = Column(Integer, primary_key=True, autoincrement=True, nullable=False)
     name = Column(String(length=50), nullable=False)
 
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "name": self.name,
+        }
+
 
 class Equipes(Base):
     __tablename__ = "equipes"
     id = Column(Integer, primary_key=True, autoincrement=True, nullable=False)
     name = Column(String(length=50), nullable=False)
+
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "name": self.name,
+        }
