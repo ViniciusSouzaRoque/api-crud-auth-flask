@@ -1,8 +1,13 @@
 from flask import Blueprint, request
 
 from controller.user_services import UserService
+from persistency.models.models import Usuarios
 from persistency.schemas.user_schemas import UserCreateInput, UserUpdateInput
-from utils.exceptions.exceptions import UserAlreadyExists, UserNotFound
+from utils.exceptions.exceptions import (
+    ProjectNotFound,
+    UserAlreadyExists,
+    UserNotFound,
+)
 
 user_bp = Blueprint("user", __name__)
 
@@ -17,6 +22,35 @@ def create_user():
         return {"Error": "User Already Exists"}
 
     return user.__dict__, 201
+
+
+@user_bp.route(
+    "/disassociate-task/<int:user_id>/<int:task_id>", methods=["POST"]
+)
+def disassociate_user_from_task(user_id: int, task_id: int):
+    try:
+        UserService.disassociate_user_from_task(user_id, task_id)
+    except UserNotFound:
+        return {"Error": "Usuário não encontrado"}, 404
+    except ProjectNotFound:
+        return {"Error": "Projeto não encontrado"}, 404
+
+    return "Usuário desassociado do projeto", 200
+
+
+@user_bp.route(
+    "/associate-task/<int:user_id>/<int:task_id>", methods=["POST"]
+)
+def associate_user_with_task(user_id: int, task_id: int):
+    try:
+        UserService.associate_user_with_task(user_id, task_id)
+    except UserNotFound:
+        return {"Error": "Usuário não encontrado"}, 404
+    except ProjectNotFound:
+        return {"Error": "Projeto não encontrado"}, 404
+
+    return "Usuário associado ao projeto", 200
+
 
 
 @user_bp.route("/update/<string:email>", methods=["PUT"])
@@ -67,8 +101,7 @@ def list_users():
 def read_user(email=None):
     user = None
     if email:
-        user = UserService.read_user(email)
-
+        user: Usuarios = UserService.read_user(email)
     else:
         email = request.json.get("email")
         user = UserService.read_user(email)
